@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Vue Mastery</title>
+  <!-- Import Styles -->
+  <link rel="stylesheet" href="./assets/styles.css" />
+  <!-- Import Vue.js -->
+</head>
+
+<body>
+  <script src="https://unpkg.com/vue@3"></script>
+
+  <div id="app"> </div>
+
+  <div id="produits">
+    <div class="nav-bar"></div>
+    <div class="cart">Cart({{cart}})</div>
+    <div class="product-display">
+      <div class="product-container">
+        <div v-bind:class="productimage">
+          <img v-bind:src="image" :alt="altImage">
+        </div>
+        <div class="product-info">
+
+          <h1>{{product}}</h1>
+          <p>Product : {{porductName}}</p>
+          <p>Colors : <span v-for="varient in varients" v-on:mouseover="updateImage(varient.image)">{{varient.color}}, </span></p>
+          <p>Size : <span v-for="size in productSize">{{size}},</span>  </p>
+          <p>Details : <span v-for="detail in details ">{{detail}}, </span></p>
+          <p>Discription : {{productDiscription}}</p>
+          <p v-if="inventory>10">In stock</p>
+          <p v-else-if="inventory > 0 && inventory <10"> Almost sold out!</p>
+          <p v-else>Out of stock</p>
+
+        </div>
+        <div :style="porductSizeStyle">
+            <button v-on:click="cart+=1" v-if="inventory>0" :href="productLink" class="button">Add to cart</button>
+            <button v-on:click="updateCart(cart)" v-if="cart>0" class="button">Remove</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Import App -->
+  <script src="./main.js"></script>
+
+</body>
+
+</html>
