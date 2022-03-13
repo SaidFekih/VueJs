@@ -15,29 +15,38 @@
   <div id="app"> </div>
 
   <div id="produits">
-    <div class="nav-bar"></div>
+    <div class="nav-bar">
+      <h2>{{brand}}</h2>
+    </div>
     <div class="cart">Cart({{cart}})</div>
     <div class="product-display">
       <div class="product-container">
-        <div v-bind:class="productimage">
-          <img v-bind:src="image" :alt="altImage">
+        <div v-bind:class="productimage ">
+          <img :class="[disableButton ? 'out-of-stock-img':'']" v-bind:src="image" :alt="altImage">
         </div>
         <div class="product-info">
-
-          <h1>{{product}}</h1>
-          <p>Product : {{porductName}}</p>
-          <p>Colors : <span v-for="varient in varients" v-on:mouseover="updateImage(varient.image)">{{varient.color}}, </span></p>
-          <p>Size : <span v-for="size in productSize">{{size}},</span>  </p>
+          <h1>{{title}}</h1>
+          <p>Product : {{product}}</p>
+          <span style="display: flex;">
+            <p>Colors :
+              <div class="color-circle" v-bind:style="{backgroundColor:varient.color}"
+                v-for="(varient, index) in varients" v-on:mouseover="updateImage(index)">
+              </div>
+            </p>
+          </span>
+          <p>Size : <span v-for="size in productSize">{{size}},</span> </p>
           <p>Details : <span v-for="detail in details ">{{detail}}, </span></p>
           <p>Discription : {{productDiscription}}</p>
-          <p v-if="inventory>10">In stock</p>
-          <p v-else-if="inventory > 0 && inventory <10"> Almost sold out!</p>
+          <p>Stok : {{stok}}</p>
+          <p v-if="stok>10">In stock</p>
+          <p v-else-if="stok > 0 && inventory <10"> Almost sold out!</p>
           <p v-else>Out of stock</p>
 
         </div>
         <div :style="porductSizeStyle">
-            <button v-on:click="cart+=1" v-if="inventory>0" :href="productLink" class="button">Add to cart</button>
-            <button v-on:click="updateCart(cart)" v-if="cart>0" class="button">Remove</button>
+          <button :class="[disableButton ? 'disabledButton': '']" v-on:click="checkInventory(cart)" class="button ">Add
+            to cart</button>
+          <button v-on:click="removeArticleFromCart(cart)" v-if="cart>0" class="button">Remove</button>
         </div>
       </div>
     </div>
